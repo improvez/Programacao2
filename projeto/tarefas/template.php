@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +11,7 @@
     <h1>
         Gerenciador de Tarefas PHP
     </h1>
-    <form>
+    <form method="POST">
         <fieldset>
             <legend>Nova tarefa</legend>
             <label>
@@ -20,21 +19,19 @@
                 <input type="text" name='nome' />
             </label>
             <label>
-                Data:
-                <input type="date" name='data' />
+                Descricão (Opcional):
+                <textarea name='descricao'></textarea>
             </label>
             <label>
-                Prioridade:
-                <input type="text" placeholder="baixa" list="prio" name='prio'>
-                <datalist id="prio">
-                    <option>baixa</option>
-                    <option>media</option>
-                    <option>alta</option>
-                </datalist>
+                Prazo (Opcional):
+                <input type="text" placeholder="baixa" list="prazo" name='prazo'>
+                <input type="radio" name="prioridade" value="1" checked />Baixa
+                <input type="radio" name="prioridade" value="2" checked />Média
+                <input type="radio" name="prioridade" value="3" checked />Alta
             </label>
             <label>
-                Status:
-                <input type="checkbox" name='status' />
+                Tarefa concluida:
+                <input type="checkbox" name='concluida' />
             </label>
             <input type="submit" name="Gravar" />
         </fieldset>
@@ -49,9 +46,10 @@
         <?php foreach ($lista_tarefas as $tarefas) : ?>
             <tr>
                 <td><?php echo $tarefa["nome"]; ?></td>
-                <td><?php echo $tarefa['data']; ?></td>
-                <td><?php echo $tarefa['prio']; ?></td>
-                <td><?php echo $tarefa['status']; ?></td>
+                <td><?php echo $tarefa['descricao']; ?></td>
+                <td><?php echo converte_data_para_tela($tarefa['prazo']); ?></td>
+                <td><?php echo converte_prioridade($tarefa['prioridade']); ?></td>
+                <td><?php echo converte_concluida($tarefa['concluida']); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

@@ -1,35 +1,39 @@
 <?php session_start(); 
 
+include "banco.php";
+include "auxiliares.php";
+
     // Verifica se existe valor para o índice nesta posição
     // array_key_exists() equivale ao -> isset()
     // echo "Tarefa informada: " . $_GET['nome'];
-    if (array_key_exists('nome', $_GET) && $_GET['nome'] != '') {
+
+    if (array_key_exists('nome', $_POST) && $_POST['nome'] != '') {
         $tarefa = [];
-        $tarefa['nome'] = $_GET['nome'];
-        if (array_key_exists('data', $_GET)) {
-            
-            $tarefa['data'] = $_GET['data'];
+        $tarefa['nome'] = $_POST['nome'];
+
+        if (array_key_exists('descricao', $_POST)) {
+            $tarefa['descricao'] = $_POST['descricao'];
         } else {
-            $tarefa['data'] = '';
+            $tarefa['descricao'] = '';
         }
-        if (array_key_exists('prio', $_GET)) {
-            $tarefa['prio'] = $_GET['prio'];
+
+        if (array_key_exists('prazo', $_POST)) {
+            $tarefa['prazo'] = converte_data_para_banco($_POST['prazo']);
         } else {
-            $tarefa['prio'] = '';
+            $tarefa['prazo'] = '';
         }
-        if (array_key_exists('status', $_GET)) {
-            $tarefa['status'] = $_GET['status'];
+
+        $tarefa['prioridade'] = $_POST['prioridade'];
+
+        if(array_key_exists('concluida', $_POST)) {
+            $tarefa['concluida'] = 1;
         } else {
-            $tarefa['status'] = '';
+            $tarefa['concluida'] = 0;
         }
-        $_SESSION['lista_tarefas'][] = $tarefa;
-    }
-        if (array_key_exists('lista_tarefas', $_SESSION)) {
-            $lista_tarefas = $_SESSION['lista_tarefas'];
-        } else {
-            $lista_tarefas = [];
-        }
-        include "template.php";
-    ?>
-<!-- Desafio 01
-Inserir os campos para data / prioridade / status -->
+
+        gravar_tarefa($conexao, $tarefa);
+
+        $lista_tarefas = buscar_tarefas($conexao);
+
+        include "template.php"; 
+        ?>
