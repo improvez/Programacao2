@@ -38,6 +38,8 @@ function gravar_tarefa($conexao, $tarefa) {
         '{$tarefa['prazo']}',
         '{$tarefa['concluida']}',
     )";
+
+    mysqli_query($conexao, $sqlGravar);
 } 
 
 ?>
