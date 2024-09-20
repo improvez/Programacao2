@@ -34,6 +34,6 @@ include "auxiliares.php";
         gravar_tarefa($conexao, $tarefa);
 
         $lista_tarefas = buscar_tarefas($conexao);
-
+        }
         include "template.php"; 
-        ?>
+?>
